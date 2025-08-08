@@ -4,7 +4,7 @@ library(readxl)
 library(readr)
 library(viridis)
 
-##Import data (Micro-Micro)
+##Import data
 brad <- read_csv("//Users//meganhughes//Library//Mobile Documents//com~apple~CloudDocs//University of Edinburgh//MScR Infectious Diseases//Bradford Data//CSV//25JUL2025_MBradford.csv")
 
 ##Plot the BSA standards and determine the linear regression line
@@ -126,5 +126,5 @@ brad_plot <- ggplot(data=brad,aes(x=`Concentration (ug/mL)`, y=`Mean Absorbance 
   xlab(expression(paste("Concentration (", mu, "g/mL)"))) +
   # Create title that splits (/n) over lines
   ggtitle(expression(paste("Concentration by Absorbance at ", lambda, "=595nm"))) +
-  # Make it un-ugly
+  # Make it pretty
   theme_minimal() 
