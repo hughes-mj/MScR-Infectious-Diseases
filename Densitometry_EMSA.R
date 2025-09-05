@@ -70,7 +70,7 @@
     xlab(expression(paste("Tex Concentration (", mu, "M)"))) +
     # Create title that splits (/n) over lines
     ggtitle(expression(paste("Fraction of Oligonucleotide Bound by Tex"))) +
-    # Make it un-ugly
+    # Make it pretty
     theme_minimal()
   
 # Create new data frame with all derived bound fraction values
