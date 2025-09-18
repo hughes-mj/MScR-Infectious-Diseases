@@ -1,0 +1,45 @@
+library(readxl)
+library(readr)
+
+##Import data (Micro-Micro)
+brad <- read_csv("//Users//meganhughes//Library//Mobile Documents//com~apple~CloudDocs//University of Edinburgh//MScR Infectious Diseases//Results//Bradford Data//CSV//08APR2025_Bradford.csv")
+
+##Plot the BSA standards and determine the linear regression line
+#Variable name in backticks so that it's fine with gaps and special characters
+Concentration_ugmL <- brad$`Concentration (ug/mL)`
+Absorbance_595nm <- brad$`Mean Absorbance (595nm) [blank corrected]`
+plot(Concentration_ugmL,Absorbance_595nm)
+lm_BSAStandard = lm(Absorbance_595nm~Concentration_ugmL)
+summary(lm_BSAStandard)
+abline(lm_BSAStandard)
+
+##Generate values that fall along the intervals of the regression lines (i.e., if x= then y=)
+approx(Concentration_ugmL, Absorbance_595nm)
+
+# determining intersection of y value with regression line (Sample 1)
+abs1 <- brad[8,3]  # insert desired value here
+# finding the x-value that results in the specified predicted y value (Sample 1)
+conc1 <- solve(lm_BSAStandard$coefficients[2],(abs1-lm_BSAStandard$coefficients[1]))
+
+# determining intersection of y value with regression line (Sample 2)
+abs2 <- brad[9,3]  # insert desired value here
+# finding the x-value that results in the specified predicted y value (Sample 2)
+conc2 <- solve(lm_BSAStandard$coefficients[2],(abs2-lm_BSAStandard$coefficients[1]))
+
+# determining intersection of y value with regression line (Sample 3)
+abs3 <- brad[10,3] # insert desired value here
+# finding the x-value that results in the specified predicted y value (Sample 3)
+conc3 <- solve(lm_BSAStandard$coefficients[2],(abs3-lm_BSAStandard$coefficients[1]))
+
+## Add new conc values to the brad dataframe
+#[row,column] <- new datapoint
+brad[8,2] <- conc1
+brad[9,2] <- conc2
+brad[10,2] <- conc3
+
+## Add new column to specify whether Standard (BSA) or Elution
+# Add column blank initially ("NA")
+brad$Type <- "NA"
+# New column will be column no4, so denote all 1-7 in column 4 "Standard" and 8-10 "Elution"
+brad[c(1:7),4] <- "Standard"
+brad[c(8:10), 4] <- "Elution"
